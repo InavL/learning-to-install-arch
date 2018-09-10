@@ -24,7 +24,7 @@ Installing Arch
 11. arch-chroot /mnt
 12. ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
 13. hwclock --systohc
-14. vi /etc/locale.gen # uncomment sv_SE UTF-8 or ISO 8859. I don't know the difference
+14. vi /etc/locale.gen # uncomment en_US.UTF-8
 15. locale-gen
 16. vi /etc/locale.conf # LANG=sv_SE.UTF-8
 17. vi /etc/vconsole.conf # 
@@ -41,4 +41,41 @@ Bootloader will be GRUB with the BIOS/MBR method
 22. reboot or shutdown and eject the .iso
 
 Post-install
-1.
+Default login is "root" and the password created in step 21.
+1. useradd -m -g users -s /bin/bash inavl
+2. passwd inavl
+3. pacman -S sudo
+4. visudo # this is very very bad to mess up. Be careful
+  inavl ALL=(ALL) NOPASSWD: ALL
+5. pacman -S net-tools pkgfile base-devel vim
+6. pacman -Syu
+7. pacman -S xf86-video-vesa
+8. pacman -S xorg xorg-server xorg-apps
+9. pacman -S ttf-dejavu  ttf-droid  ttf-inconsolata
+10. pacman -S openbox obconf openbox-themes pypanel
+11. pacman -S git
+12. pacman -S compton
+13. pacman -S rxvt-unicode
+14. pacman -S tint2
+15. pacman -S firefox
+16. pacman -S ranger
+
+VirtualBox Guest Additions
+1. login inavl
+2. sudo pacman -S linux-headers
+3. sudo pacman -S virtualbox-guest-dkms
+4. sudo pacman -S virtualbox-guest-utils
+5. sudo systemctl enable vboxservice.service
+6. # Enable “Bidirectional” Shared Clipboard from VirtualBox Manager’s Settings / General / Advanced menu.
+
+
+
+ricing and such
+1. git clone https://github.com/iiPlasma/dots # to steal the dotfiles muahahaha
+2. fix the dots
+3. git clone https://aur.archlinux.org/yay.git
+4. cd yay
+5. makepkg -si
+6. sudo vim /etc/pacman.conf # uncomment the "Color" tag
+7. yay zsh
+8. yay curl
