@@ -1,0 +1,44 @@
+VirtualBox
+1. Make a new VM name it whatever you want
+2. Choose Arch and Arch Linux (64-bit)
+3. Assign RAM (2Gb is good enough)
+4. Create a virtual hard disk and choose the type VDI (Dynamically Allocated)
+
+Installing Arch
+1. Boot Arch Linux
+2. loadkeys sv-latin1 # 
+3. timedatectl set-ntp true
+4. timedatectl set-timezone Europe/Stockholm
+5. parted /dev/sda
+  1. mklabel  msdos # msdos is another name for the MBR partition type
+  2. mkpart  primary  ext4  0%  100%
+  3. set 1 boot on
+  4. print
+  5. quit
+6. mkfs.ext4 /dev/sda1
+# if necessary we can make a swapfile later
+7. mount /dev/sda1 /mnt
+8. vi /etc/pacman.d/mirrorlist # move up the best servers (preferably the swedish, norwegian and the danish ones will do)
+9. pacstrap /mnt base
+10. genfstab -U /mnt >> /mnt/etc/fstab
+11. arch-chroot /mnt
+12. ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+13. hwclock --systohc
+14. vi /etc/locale.gen # uncomment sv_SE UTF-8 or ISO 8859. I don't know the difference
+15. locale-gen
+16. vi /etc/locale.conf # LANG=sv_SE.UTF-8
+17. vi /etc/vconsole.conf # 
+  KEYMAP=sv-latin1 and 
+  FONT=Lat2-Terminus16
+18. vi /etc/hostname # arch-vm
+19. vi /etc/hosts # 
+  127.0.0.1     localhost
+   ::1           localhost
+  127.0.1.1     arch-vm.localdomain arch-vm
+20. systemctl enable dhcpcd.service
+21. passwd
+Bootloader will be GRUB with the BIOS/MBR method
+22. reboot or shutdown and eject the .iso
+
+Post-install
+1.
